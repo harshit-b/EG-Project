@@ -35,13 +35,13 @@ const styles = StyleSheet.create({
         fontSize: 40,
         bottom: 50,
         fontWeight: "bold",
-
+        fontFamily: 'Devanagari Sangam MN',  //AppleSDGothicNeo-Bold, 
 
     },
 
     imagePlanet: {
-        height: "50%",
-        width: "100%",
+        height: "35%",
+        width: "80%",
 
     },
 
