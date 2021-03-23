@@ -1,7 +1,9 @@
 import React from 'react';
 import { ImageBackground, StyleSheet, Text, Image, Button, TouchableHighlight } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-function WelcomeScreen(props) {
+function WelcomeScreen({navigation}) {
 
     return (
         <ImageBackground
@@ -9,7 +11,7 @@ function WelcomeScreen(props) {
             style={styles.container}>
             <Text style={styles.textHeading}> BLACK UNIVERSE </Text>
             <Image source={require("../app/assets/planet1.jpg")} style={styles.imagePlanet} />
-            <TouchableHighlight style={styles.buttonLogin} onPress={() => console.log("Login Pressed")}>
+            <TouchableHighlight style={styles.buttonLogin} onPress={() => navigation.navigate("Courses")}>
                 <Text style={styles.buttonText}> LOGIN </Text>
             </TouchableHighlight>
             <TouchableHighlight style={styles.buttonRegister} onPress={() => console.log("Register Pressed")}>
@@ -35,14 +37,11 @@ const styles = StyleSheet.create({
         fontSize: 40,
         bottom: 50,
         fontWeight: "bold",
-
-
     },
 
     imagePlanet: {
         height: "50%",
         width: "100%",
-
     },
 
     buttonLogin: {
