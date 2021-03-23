@@ -7,28 +7,28 @@ function CoursesScreen({navigation}) {
 
     return(
         <ImageBackground source={require("../app/assets/bg.jpg")} style={styles.container}>
-            <Text style={styles.textHeading}> COURSES </Text>
+            <Text style={styles.textHeading}> COURSE </Text>
             <View style={styles.DifficultyLevel}> 
                 <TouchableHighlight style={styles.dashboardCourses}>
-                    <Text style={styles.buttonCourses}> Basics </Text>
+                    <Text style={styles.buttonCourses}> BASICS </Text>
                 </TouchableHighlight>
 
                 <TouchableHighlight style={styles.dashboardGames}>
-                    <Text style={styles.buttonUnavailable}> Easy </Text>
+                    <Text style={styles.buttonCourses}> EASY </Text>
                 </TouchableHighlight>
 
                 <TouchableHighlight style={styles.dashboardLessons}>
-                    <Text style={styles.buttonUnavailable}> Medium </Text>
+                    <Text style={styles.buttonCourses}> MEDIUM </Text>
                 </TouchableHighlight>
 
                 <TouchableHighlight style={styles.dashboardStats}>
-                    <Text style={styles.buttonUnavailable}> Hard </Text>
+                    <Text style={styles.buttonCourses}> HARD </Text>
                 </TouchableHighlight>
             </View>
             <View style={styles.Dashboard} >
                
-                <TouchableHighlight style={styles.dashboardCourses} onPress={() => navigate.push("Courses")}>
-                    <Text style={styles.buttonCourses}> Courses </Text>
+                <TouchableHighlight style={styles.dashboardCourses} onPress={() => navigation.push("Courses")}>
+                    <Text style={styles.buttonDashboard}> Courses </Text>
                 </TouchableHighlight>
 
                 <TouchableHighlight style={styles.dashboardGames} onPress={() => navigation.navigate("Games")}>
@@ -66,17 +66,24 @@ const styles = StyleSheet.create({
 
     textHeading: {
         color: "#ffffff",
-        fontSize: 40,
+        fontSize: 15,
+        // fontWeight: "bold",
+        // height: "10%",
+        bottom: "74%",
+        color: "white",
+        opacity: 0.9,
         fontWeight: "bold",
-        bottom: 450,
+        fontFamily: "AppleSDGothicNeo-Thin",
+        alignItems: "flex-start",
+        // backgroundColor: "rgba(1,105,105,0.7)",
     },
 
     DifficultyLevel: {
-        backgroundColor: "rgba(105,105,105,0.7)",
-        height: "10%",
+        // backgroundColor: "rgba(105,105,105,0.7)",
+        height: "5%",
         width: "100%",
         flexDirection: "row",
-        bottom: 425,
+        bottom: "152%",
     },
 
     Dashboard: {
@@ -123,13 +130,26 @@ const styles = StyleSheet.create({
 
     buttonCourses: {
         color: "white",
+        fontSize: 15,
+        opacity: 0.9,
         fontWeight: "bold",
+        fontFamily: "AppleSDGothicNeo-Thin"
+    },
+
+    buttonDashboard: {
+        color: "white",
+        fontSize: 12,
+        opacity: 0.9,
+        fontWeight: "bold",
+        fontFamily: "AppleSDGothicNeo-Thin"
     },
 
     buttonUnavailable: {
-        color: "black",
+        color: "white",
+        fontSize: 12,
         opacity: 0.5,
         fontWeight: "bold",
+        fontFamily: "AppleSDGothicNeo-Thin"
     },
 
     coursesIcon: {

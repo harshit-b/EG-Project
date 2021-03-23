@@ -10,7 +10,7 @@ function StatsScreen({navigation}) {
             <Text style={styles.textHeading}> STATS </Text>
             <View style={styles.Dashboard} >
                
-            <TouchableHighlight style={styles.dashboardCourses} onPress={() => navigate.navigate("Courses")}>
+            <TouchableHighlight style={styles.dashboardCourses} onPress={() => navigation.navigate("Courses")}>
                     <Text style={styles.buttonInactive}> Courses </Text>
                 </TouchableHighlight>
 
