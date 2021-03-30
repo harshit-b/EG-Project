@@ -1,14 +1,36 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, View, TouchableHighlight, Text, Image} from 'react-native';
+import { ImageBackground, StyleSheet, View, TouchableHighlight, Text, ScrollView } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+import { SimpleLineIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-function CoursesScreen({navigation}) {
+function CoursesScreen({ navigation }) {
+    var num_buttons = 5
+    var buttons = []
 
-    return(
+    for (let i = 0; i < num_buttons; i++) {
+        buttons.push(
+            <TouchableHighlight style={{
+                width: 150,
+                height: 50,
+                borderWidth: 3,
+                borderColor: "white",
+                backgroundColor: "transparent",
+                alignItems: "center",
+                justifyContent: "center",
+                top: 60 + (i * 10),
+            }} key={i + 1} onPress={() => console.log(i + "pressed")}>
+                <Text style={{ color: "white" }}> PROBLEM {i + 1} </Text>
+            </TouchableHighlight>
+        )
+    }
+    return (
         <ImageBackground source={require("../app/assets/bg.jpg")} style={styles.container}>
             <Text style={styles.textHeading}> COURSE </Text>
-            <View style={styles.DifficultyLevel}> 
+            <View style={styles.DifficultyLevel}>
                 <TouchableHighlight style={styles.dashboardCourses}>
                     <Text style={styles.buttonCourses}> BASICS </Text>
                 </TouchableHighlight>
@@ -25,22 +47,36 @@ function CoursesScreen({navigation}) {
                     <Text style={styles.buttonCourses}> HARD </Text>
                 </TouchableHighlight>
             </View>
+            <View style={styles.scrollView}>
+                {buttons}
+            </View>
             <View style={styles.Dashboard} >
-               
                 <TouchableHighlight style={styles.dashboardCourses} onPress={() => navigation.push("Courses")}>
-                    <Text style={styles.buttonDashboard}> Courses </Text>
+                    <View>
+                        <Entypo name="list" size={27} color="white" style={{ left: "15%" }} />
+                        <Text style={styles.buttonDashboard}> Courses </Text>
+                    </View>
                 </TouchableHighlight>
 
                 <TouchableHighlight style={styles.dashboardGames} onPress={() => navigation.navigate("Games")}>
-                    <Text style={styles.buttonUnavailable}> Games </Text>
+                    <View>
+                        <MaterialCommunityIcons name="gamepad-variant-outline" size={27} color="white" style={{ left: "10%", opacity: 0.5 }} />
+                        <Text style={styles.buttonUnavailable}> Games </Text>
+                    </View>
                 </TouchableHighlight>
 
                 <TouchableHighlight style={styles.dashboardLessons} onPress={() => navigation.navigate("Lessons")}>
-                    <Text style={styles.buttonUnavailable}> Lessons </Text>
+                    <View>
+                        <SimpleLineIcons name="book-open" size={26} color="white" style={{ left: "17%", opacity: 0.5 }} />
+                        <Text style={styles.buttonUnavailable}> Lessons </Text>
+                    </View>
                 </TouchableHighlight>
 
                 <TouchableHighlight style={styles.dashboardStats} onPress={() => navigation.navigate("Stats")}>
-                    <Text style={styles.buttonUnavailable}> Stats </Text>
+                    <View>
+                        <Ionicons name="stats-chart" size={24} color="white" style={{ left: "8%", opacity: 0.5 }} />
+                        <Text style={styles.buttonUnavailable}> Stats </Text>
+                    </View>
                 </TouchableHighlight>
 
                 <TouchableHighlight style={styles.dashboardMore} onPress={() => console.log("More Pressed")}>
@@ -64,16 +100,21 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
 
+    scrollView: {
+        flex: 1,
+
+    },
+
     textHeading: {
         color: "#ffffff",
-        fontSize: 15,
+        fontSize: 40,
         // fontWeight: "bold",
         // height: "10%",
-        bottom: "74%",
+        top: "3%",
         color: "white",
         opacity: 0.9,
         fontWeight: "bold",
-        fontFamily: "AppleSDGothicNeo-Thin",
+        //fontFamily: "AppleSDGothicNeo-Thin",
         alignItems: "flex-start",
         // backgroundColor: "rgba(1,105,105,0.7)",
     },
@@ -83,12 +124,12 @@ const styles = StyleSheet.create({
         height: "5%",
         width: "100%",
         flexDirection: "row",
-        bottom: "152%",
+        top: "10%"
     },
 
     Dashboard: {
         backgroundColor: "rgba(105,105,105,0.7)",
-        height: "10%",
+        height: "9%",
         width: "100%",
         flexDirection: "row",
     },
@@ -151,10 +192,4 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontFamily: "AppleSDGothicNeo-Thin"
     },
-
-    coursesIcon: {
-        width: "50%",
-        height: "50%",
-        resizeMode: "contain",
-    }
 })
