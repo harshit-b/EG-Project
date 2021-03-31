@@ -3,7 +3,7 @@ import { ImageBackground, StyleSheet, Text, Image, Button, TouchableHighlight } 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-function WelcomeScreen({navigation}) {
+function WelcomeScreen({ navigation }) {
 
     return (
         <ImageBackground
@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
         fontSize: 40,
         bottom: 50,
         fontWeight: "bold",
-        fontFamily: 'Devanagari Sangam MN',  //AppleSDGothicNeo-Bold, 
+        fontFamily: "AppleSDGothicNeo-Bold",
+        // 'Devanagari Sangam MN'
 
     },
 
