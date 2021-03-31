@@ -28,7 +28,7 @@ function CoursesScreen({navigation}) {
             <View style={styles.Dashboard} >
                
                 <TouchableHighlight style={styles.dashboardCourses} onPress={() => navigation.push("Courses")}>
-                    <Text style={styles.buttonDashboard}> Courses </Text>
+                    <Text style={styles.buttonDashboard}> Course </Text>
                 </TouchableHighlight>
 
                 <TouchableHighlight style={styles.dashboardGames} onPress={() => navigation.navigate("Games")}>
