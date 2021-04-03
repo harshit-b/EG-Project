@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { ImageBackground, StyleSheet, View, TouchableHighlight, Text, ScrollView } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons'; 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 function CoursesScreen({ navigation }) {
-    var num_buttons = 5
+    var num_buttons = 15
     var buttons = []
-
-    for (let i = 0; i < num_buttons; i++) {
+    const scrollViewRef = useRef();
+    for (let i = num_buttons; i > 0; i--) {
         buttons.push(
             <TouchableHighlight style={{
                 width: 150,
@@ -21,63 +22,76 @@ function CoursesScreen({ navigation }) {
                 backgroundColor: "transparent",
                 alignItems: "center",
                 justifyContent: "center",
-                top: 60 + (i * 10),
-            }} key={i + 1} onPress={() => console.log(i + "pressed")}>
-                <Text style={{ color: "white" }}> PROBLEM {i + 1} </Text>
+                top: 60 + ((num_buttons - i) * 10),
+            }} key={i} onPress={() => console.log(i + "pressed")}>
+                <Text style={{ color: "white" }}> PROBLEM {(i)} </Text>
             </TouchableHighlight>
         )
     }
     return (
         <ImageBackground source={require("../app/assets/bg.jpg")} style={styles.container}>
-            <Text style={styles.textHeading}> COURSE </Text>
-            <View style={styles.DifficultyLevel}>
-                <TouchableHighlight style={styles.dashboardCourses}>
-                    <Text style={styles.buttonCourses}> BASICS </Text>
-                </TouchableHighlight>
+            <View style={styles.coursesTop}>
+                <Text style={styles.textHeading}> COURSE </Text>
+                <View style={styles.DifficultyLevel}>
+                    <TouchableHighlight style={styles.DifficultyLevelButtons}>
+                        <Text style={styles.DifficultyLevelButtonText}> BASICS </Text>
+                    </TouchableHighlight>
 
-                <TouchableHighlight style={styles.dashboardGames}>
-                    <Text style={styles.buttonCourses}> EASY </Text>
-                </TouchableHighlight>
+                    <TouchableHighlight style={styles.DifficultyLevelButtons}>
+                        <Text style={styles.DifficultyLevelButtonText}> EASY </Text>
+                    </TouchableHighlight>
 
-                <TouchableHighlight style={styles.dashboardLessons}>
-                    <Text style={styles.buttonCourses}> MEDIUM </Text>
-                </TouchableHighlight>
+                    <TouchableHighlight style={styles.DifficultyLevelButtons}>
+                        <Text style={styles.DifficultyLevelButtonText}> MEDIUM </Text>
+                    </TouchableHighlight>
 
-                <TouchableHighlight style={styles.dashboardStats}>
-                    <Text style={styles.buttonCourses}> HARD </Text>
-                </TouchableHighlight>
+                    <TouchableHighlight style={styles.DifficultyLevelButtons}>
+                        <Text style={styles.DifficultyLevelButtonText}> HARD </Text>
+                    </TouchableHighlight>
+                </View>
             </View>
-            <View style={styles.scrollView}>
+            {/* <View style={styles.scrollView}> */}
+            <ScrollView contentContainerStyle={styles.scrollView} 
+            ref={scrollViewRef}
+            onContentSizeChange={() => scrollViewRef.current.scrollToEnd({animated: true})}>
                 {buttons}
-            </View>
+            </ScrollView>
+            {/* </View> */}
             <View style={styles.Dashboard} >
-                <TouchableHighlight style={styles.dashboardCourses} onPress={() => navigation.push("Courses")}>
-                    <Text style={styles.buttonDashboard}> Course </Text>
-                </TouchableHighlight>
-
-                <TouchableHighlight style={styles.dashboardGames} onPress={() => navigation.navigate("Games")}>
+                <TouchableHighlight style={styles.dashboardButtons} onPress={() => navigation.push("Courses")}>
                     <View>
-                        <MaterialCommunityIcons name="gamepad-variant-outline" size={27} color="white" style={{ left: "10%", opacity: 0.5 }} />
-                        <Text style={styles.buttonUnavailable}> Games </Text>
+                        <MaterialCommunityIcons name="gamepad-circle" style={styles.dashboardButtonIcons}/>
+                        <Text style={styles.buttonDashboardText}> Course </Text>
                     </View>
                 </TouchableHighlight>
 
-                <TouchableHighlight style={styles.dashboardLessons} onPress={() => navigation.navigate("Lessons")}>
+                <TouchableHighlight style={styles.dashboardButtons} onPress={() => navigation.navigate("Games")}>
                     <View>
-                        <SimpleLineIcons name="book-open" size={26} color="white" style={{ left: "17%", opacity: 0.5 }} />
-                        <Text style={styles.buttonUnavailable}> Lessons </Text>
+                        <MaterialCommunityIcons name="gamepad-variant" style={styles.dashboardButtonIcons}/>
+                        <Text style={styles.buttonDashboardText}> Games </Text>
                     </View>
                 </TouchableHighlight>
 
-                <TouchableHighlight style={styles.dashboardStats} onPress={() => navigation.navigate("Stats")}>
+                <TouchableHighlight style={styles.dashboardButtons} onPress={() => navigation.navigate("Lessons")}>
                     <View>
-                        <Ionicons name="stats-chart" size={24} color="white" style={{ left: "8%", opacity: 0.5 }} />
-                        <Text style={styles.buttonUnavailable}> Stats </Text>
+                        <FontAwesome name="book" style={styles.dashboardButtonIcons}/>
+                        {/* <SimpleLineIcons name="book-open" size={26} color="white" style={{ left: "17%", opacity: 0.5 }} /> */}
+                        <Text style={styles.buttonDashboardText}> Lessons </Text>
                     </View>
                 </TouchableHighlight>
 
-                <TouchableHighlight style={styles.dashboardMore} onPress={() => console.log("More Pressed")}>
-                    <Text style={styles.buttonUnavailable}> More </Text>
+                <TouchableHighlight style={styles.dashboardButtons} onPress={() => navigation.navigate("Stats")}>
+                    <View>
+                        <Ionicons name="stats-chart" style={styles.dashboardButtonIcons}/>
+                        <Text style={styles.buttonDashboardText}> Stats </Text>
+                    </View>
+                </TouchableHighlight>
+
+                <TouchableHighlight style={styles.dashboardButtons} onPress={() => console.log("More Pressed")}>
+                    <View>
+                        <FontAwesome name="bars" style={styles.dashboardButtonIcons}/>
+                        <Text style={styles.buttonDashboardText}> More </Text>
+                    </View>
                 </TouchableHighlight>
 
             </View>
@@ -93,80 +107,74 @@ const styles = StyleSheet.create({
         flex: 1,
         height: "100%",
         width: "100%",
-        justifyContent: "flex-end",
         alignItems: "center",
     },
-
+    coursesTop: {
+        height: "12%",
+        // backgroundColor:'rgba(35,0,0,0.9)', 
+        justifyContent: "flex-start", 
+        top:"5%", 
+        marginBottom: "11%"
+    },
     scrollView: {
-        flex: 1,
-
+        // flex: 1,
+        flexWrap: "wrap",
+        flexDirection: "column", 
+        top:"5%",
+        // bottom: "5%",
+        paddingBottom: 300,
     },
 
     textHeading: {
         color: "#ffffff",
-        fontSize: 40,
-        // fontWeight: "bold",
-        // height: "10%",
-        top: "3%",
+        fontSize: 15,
+        textAlign: "center",
+        top: "28%",
+        height: "15%",
         color: "white",
         opacity: 0.9,
         fontWeight: "bold",
-        //fontFamily: "AppleSDGothicNeo-Thin",
-        alignItems: "flex-start",
-        // backgroundColor: "rgba(1,105,105,0.7)",
+        fontFamily: "AppleSDGothicNeo-Thin",
+
     },
 
     DifficultyLevel: {
-        // backgroundColor: "rgba(105,105,105,0.7)",
-        height: "5%",
         width: "100%",
         flexDirection: "row",
-        top: "10%"
+        top: "17%"
     },
 
     Dashboard: {
-        backgroundColor: "rgba(105,105,105,0.7)",
-        height: "9%",
+        backgroundColor: "rgba(24, 26, 25,1)",
+        height: "11%",
         width: "100%",
-        flexDirection: "row",
+        flexDirection: "row", 
+        // marginTop: "10%"
     },
 
-    dashboardCourses: {
+    dashboardButtons: {
         flex: 1,
         width: "20%",
         alignItems: "center",
         justifyContent: "center",
+        paddingBottom: '6%',
+        opacity: 0.2 
+    },
+    dashboardButtonIcons : {
+        left: "12%", 
+        paddingBottom: '8%', 
+        fontSize: 24,
+        color: "white"
     },
 
-    dashboardGames: {
+    DifficultyLevelButtons: {
         flex: 1,
         width: "20%",
         alignItems: "center",
-        justifyContent: "center",
+        // justifyContent: "center",
     },
 
-    dashboardLessons: {
-        flex: 1,
-        width: "20%",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-
-    dashboardStats: {
-        flex: 1,
-        width: "20%",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-
-    dashboardMore: {
-        flex: 1,
-        width: "20%",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-
-    buttonCourses: {
+    DifficultyLevelButtonText: {
         color: "white",
         fontSize: 15,
         opacity: 0.9,
@@ -174,7 +182,7 @@ const styles = StyleSheet.create({
         fontFamily: "AppleSDGothicNeo-Thin"
     },
 
-    buttonDashboard: {
+    buttonDashboardText: {
         color: "white",
         fontSize: 12,
         opacity: 0.9,
@@ -182,11 +190,4 @@ const styles = StyleSheet.create({
         fontFamily: "AppleSDGothicNeo-Thin"
     },
 
-    buttonUnavailable: {
-        color: "white",
-        fontSize: 12,
-        opacity: 0.5,
-        fontWeight: "bold",
-        fontFamily: "AppleSDGothicNeo-Thin"
-    },
 })
