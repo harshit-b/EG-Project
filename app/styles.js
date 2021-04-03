@@ -29,19 +29,18 @@ export default StyleSheet.create({
         color: "#ffffff",
         fontSize: 15,
         textAlign: "center",
-        top: "28%",
-        height: "15%",
+        top: "15%",
         color: "white",
         opacity: 0.9,
         fontWeight: "bold",
-        fontFamily: "AppleSDGothicNeo-Thin",
+        //fontFamily: "AppleSDGothicNeo-Thin",
 
     },
 
     DifficultyLevel: {
         width: "100%",
         flexDirection: "row",
-        top: "17%"
+        top: "15%"
     },
 
     Dashboard: {
@@ -79,7 +78,7 @@ export default StyleSheet.create({
         fontSize: 15,
         opacity: 0.9,
         fontWeight: "bold",
-        fontFamily: "AppleSDGothicNeo-Thin"
+        //fontFamily: "AppleSDGothicNeo-Thin"
     },
 
     buttonDashboardText: {
@@ -87,7 +86,7 @@ export default StyleSheet.create({
         fontSize: 12,
         opacity: 0.9,
         fontWeight: "bold",
-        fontFamily: "AppleSDGothicNeo-Thin"
+        //fontFamily: "AppleSDGothicNeo-Thin"
     },
 
 });
