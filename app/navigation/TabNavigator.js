@@ -9,7 +9,7 @@ import TabBar from '../components/TabBar';
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
   return (
-    <Tab.Navigator tabBar={props => <TabBar {...props} />}>
+    <Tab.Navigator initialRouteName="Course" tabBar={props => <TabBar {...props} />}>
       <Tab.Screen
         name='Course'
         component={CoursesScreen}
