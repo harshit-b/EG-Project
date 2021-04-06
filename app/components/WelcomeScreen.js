@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         fontSize: 40,
         bottom: 50,
         fontWeight: "bold",
-        fontFamily: "AppleSDGothicNeo-Bold",
+        //fontFamily: "AppleSDGothicNeo-Bold",
         // 'Devanagari Sangam MN'
 
     },

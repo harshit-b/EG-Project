@@ -8,46 +8,44 @@ export default StyleSheet.create({
         height: "100%",
         width: "100%",
         alignItems: "center",
+        justifyContent: "center"
+
     },
+
     coursesTop: {
-        height: "12%",
         // backgroundColor:'rgba(35,0,0,0.9)', 
-        justifyContent: "flex-start", 
-        top:"5%", 
+        justifyContent: "flex-start",
         marginBottom: "11%"
     },
+
+    scrollViewContainer: {
+        bottom: "5%",
+        height: "70%"
+    },
+
     scrollView: {
         // flex: 1,
-        flexWrap: "wrap",
-        flexDirection: "column", 
-        top:"5%",
+        flexDirection: "column",
         // bottom: "5%",
-        paddingBottom: 300,
+        paddingBottom: 0,
     },
 
     textHeading: {
         color: "#ffffff",
-        fontSize: 15,
+        fontSize: 16,
         textAlign: "center",
-        top: "15%",
         color: "white",
-        opacity: 0.9,
         fontWeight: "bold",
+        top: "6%",
         //fontFamily: "AppleSDGothicNeo-Thin",
 
-    },
-
-    DifficultyLevel: {
-        width: "100%",
-        flexDirection: "row",
-        top: "15%"
     },
 
     Dashboard: {
         backgroundColor: "rgba(24, 26, 25,1)",
         height: "11%",
         width: "100%",
-        flexDirection: "row", 
+        flexDirection: "row",
         // marginTop: "10%"
     },
 
@@ -57,20 +55,42 @@ export default StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         paddingBottom: '6%',
-        opacity: 0.2 
+        opacity: 0.2
     },
-    dashboardButtonIcons : {
-        left: "12%", 
-        paddingBottom: '8%', 
+    dashboardButtonIcons: {
+        left: "12%",
+        paddingBottom: '8%',
         fontSize: 24,
         color: "white"
+    },
+
+    
+    buttonDashboardText: {
+        color: "white",
+        fontSize: 12,
+        opacity: 0.9,
+        fontWeight: "bold",
+        //fontFamily: "AppleSDGothicNeo-Thin"
+    },
+
+    DifficultyLevel: {
+        flex: 1,
+        flexDirection: "row",
+        top: "20%",
+    },
+
+    DifficultyLevelBar: {
+        flex: 1,
+        flexDirection: "row",
+        height: "2%",
+        top: "2%",
     },
 
     DifficultyLevelButtons: {
         flex: 1,
         width: "20%",
         alignItems: "center",
-        // justifyContent: "center",
+        height: "15%"
     },
 
     DifficultyLevelButtonText: {
@@ -81,12 +101,40 @@ export default StyleSheet.create({
         //fontFamily: "AppleSDGothicNeo-Thin"
     },
 
-    buttonDashboardText: {
-        color: "white",
-        fontSize: 12,
-        opacity: 0.9,
-        fontWeight: "bold",
-        //fontFamily: "AppleSDGothicNeo-Thin"
+    barGreenBasics: {
+        backgroundColor: "green",
+        width: "16%",
+        height: "2%",
+        right: "145%",
+    },
+
+    barGreenEasy: {
+        backgroundColor: "green",
+        width: "15%",
+        height: "2%",
+        right: "50%",
+    },
+
+    barGreenMedium: {
+        backgroundColor: "green",
+        width: "18%",
+        height: "2%",
+        left: "50%"
+    },
+
+    barGreenHard: {
+        backgroundColor: "green",
+        width: "15%",
+        height: "2%",
+        left: "146%"
+
+    },
+
+    barBlack: {
+        flex: 1,
+        color: "black",
+        width: "15%",
+        height: "5%"
     },
 
 });
