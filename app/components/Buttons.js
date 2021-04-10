@@ -1,8 +1,12 @@
 import React, { useRef } from 'react';
 import { TouchableHighlight, Text, ScrollView } from 'react-native';
 import styles from "../styles";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
 function Buttons({ difficulty, num_buttons }) {
+    const navigation = useNavigation()
     var buttons = []
     const scrollViewRef = useRef();
     for (let i = 0; i < num_buttons; i++) {
@@ -15,7 +19,7 @@ function Buttons({ difficulty, num_buttons }) {
                 backgroundColor: "transparent",
                 alignItems: "center",
                 justifyContent: "center",
-            }} key={i} onPress={() => console.log((i + 1) + "pressed")}>
+            }} key={i} onPress={() => navigation.navigate("Problem", { problemDifficulty: difficulty, problemNumber: i })}>
                 <Text style={{ color: "white" }}> {difficulty} PROBLEM {(i + 1)} </Text>
             </TouchableHighlight>
         )
