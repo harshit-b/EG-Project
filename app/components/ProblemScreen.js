@@ -1,68 +1,80 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { ImageBackground, StyleSheet, View, TouchableHighlight, Text, Image, TouchableOpacity } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
+import Cube from './Cube.js';
 
 
-function ProblemScreen() {
-    const route = useRoute();
-    const navigation = useNavigation()
+class ProblemScreen extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { active: 0 };
+    }
 
-    const { problemDifficulty, problemNumber } = route.params;
-    return (
-        <ImageBackground source={require("../assets/bg.jpg")} style={styles.container}>
-            <Text style={styles.textHeading}> {problemDifficulty} PROBLEM {problemNumber + 1} </Text>
-            
-            <View style={styles.problemView}>
-                <Text style={styles.textHeading}> PROBLEM BOX </Text>
-            </View>
+    addCube =() => {
+        if (this.state.active == 1) 
+            return <Cube />;
+    }
 
-            <View style={styles.playingFieldView}>
-                <Text style={styles.textHeading}> PLAYING FIELD </Text>
-            </View>
-
-            <View style={styles.curvedLine} />
-
-            {/*For now the name of the buttons are taken from the EEG Pascal Program */}
-            <TouchableOpacity style={styles.graphButtonDCP} onPress={() => console.log("DCP PRESSED")}>
-                <Text style={styles.graphButtonText}> DCP </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.graphButtonDCPO} onPress={() => console.log("DCPO PRESSED")}>
-                <Text style={styles.graphButtonText}> DCPO </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.graphButtonDCN} onPress={() => console.log("DCN PRESSED")}>
-                <Text style={styles.graphButtonText}> DCN </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.graphButtonIN} onPress={() => console.log("IN PRESSED")}>
-                <Text style={styles.graphButtonText}> IN </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.graphButtonEG} onPress={() => console.log("EG PRESSED")}>
-                <Text style={styles.graphButtonText}> EG </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.graphButtonIT} onPress={() => console.log("IT PRESSED")}>
-                <Text style={styles.graphButtonText}> IT </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.graphButtonDE} onPress={() => console.log("DE PRESSED")}>
-                <Text style={styles.graphButtonText}> DE </Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.rightArrow} onPress={() => console.log("Back button PRESSED")} >
-                <Feather name="arrow-left-circle" size={40} color="white" />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.leftArrow} onPress={() => console.log("Forward button PRESSED")} >
-                <Feather name="arrow-right-circle" size={40} color="white" />
-            </TouchableOpacity>
-            
-            
-
-
-        </ImageBackground>
-    );
+    render() {
+        const {route} = this.props;
+        const { problemDifficulty, problemNumber } = route.params;
+        return (
+            <ImageBackground source={require("../assets/bg.jpg")} style={styles.container}>
+                <Text style={styles.textHeading}>  {problemDifficulty} PROBLEM {problemNumber + 1} </Text>
+                
+                <View style={styles.problemView}>
+                    <Text style={styles.textHeading}> PROBLEM BOX </Text>
+                </View>
+    
+                <View style={styles.playingFieldView}>
+                    {this.addCube()}
+                </View>
+    
+                <View style={styles.curvedLine} />
+    
+                {/*For now the name of the buttons are taken from the EEG Pascal Program */}
+                <TouchableOpacity style={styles.graphButtonDCP} onPress={() => console.log("DCP PRESSED")}>
+                    <Text style={styles.graphButtonText}> DCP </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.graphButtonDCPO} onPress={() => console.log("DCPO PRESSED")}>
+                    <Text style={styles.graphButtonText}> DCPO </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.graphButtonDCN} onPress={() => console.log("DCN PRESSED")}>
+                    <Text style={styles.graphButtonText}> DCN </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.graphButtonIN} onPress={() => this.setState({active : 1})}>
+                    <Text style={styles.graphButtonText}> IN </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.graphButtonEG} onPress={() => console.log("EG PRESSED")}>
+                    <Text style={styles.graphButtonText}> EG </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.graphButtonIT} onPress={() => console.log("IT PRESSED")}>
+                    <Text style={styles.graphButtonText}> IT </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.graphButtonDE} onPress={() => console.log("DE PRESSED")}>
+                    <Text style={styles.graphButtonText}> DE </Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity style={styles.rightArrow} onPress={() => console.log("Back button PRESSED")} >
+                    <Feather name="arrow-left-circle" size={40} color="white" />
+                </TouchableOpacity>
+    
+                <TouchableOpacity style={styles.leftArrow} onPress={() => console.log("Forward button PRESSED")} >
+                    <Feather name="arrow-right-circle" size={40} color="white" />
+                </TouchableOpacity>
+            </ImageBackground>
+        );
+    }
+    
 }
 
-export default ProblemScreen;
+export default function(props) {
+    const route = useRoute();
+    const navigation = useNavigation()
+    return <ProblemScreen {...props} route={route} />
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -237,3 +249,8 @@ const styles = StyleSheet.create({
     }
 
 })
+
+/*  
+    
+    
+*/

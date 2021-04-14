@@ -8,11 +8,9 @@ import styles from "../styles";
 
 
 export default class CoursesScreen extends Component {
-
     constructor(props) {
         super(props);
-
-        this.state = { active: 0 }
+        this.state = { active: 0 };
     }
 
     addMore = () => {
