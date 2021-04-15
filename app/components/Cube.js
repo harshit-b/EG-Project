@@ -51,7 +51,7 @@ export default class Cube extends Component {
     });
   }
 
-  handlePanResponderMove (e, gestureState) {
+  handlePanResponderMove (e, gestureState) { 
     const { dx, dy } = gestureState;
     const origin = { x: 0, y: 0, z: -50 };
     let matrix = rotateXY(dx, dy);
