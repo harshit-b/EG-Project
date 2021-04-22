@@ -1,39 +1,83 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { ImageBackground, StyleSheet, View, TouchableHighlight, Text, Image, TouchableOpacity } from 'react-native';
-import { useRoute } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import Cube from './Cube.js';
+import ArrayCube from './ArrayCube.js';
 
 
-class ProblemScreen extends Component {
+export default class ProblemScreen extends Component {
     constructor(props) {
         super(props);
         this.state = { active: 0 };
     }
-
-    addCube =() => {
-        if (this.state.active == 1) 
-            return <Cube />;
+    
+    isMatchingBrackets = (str) => {
+        let stack = [];
+        let map = {
+            '(': ')',
+        };
+        let level=0;
+        let dict={};
+        for (let i = 0; i < str.length; i++) {
+    
+            // If character is an opening brace add it to a stack
+            if (str[i] === '(' ) {
+                stack.push(str[i]);
+                level = level + 1;
+                if (!(level in dict))
+                    dict[level]=[];
+            }
+            //  If that character is a closing brace, pop from the stack, which will also reduce the length of the stack each time a closing bracket is encountered.
+            else if (str[i] == ')') {
+                let last = stack.pop();
+                level = level -1;
+            }
+            else {
+                dict[level].push(str[i]);
+            }
+        }
+        console.log(dict);
     }
 
+    addCube = (num, dict) => {
+        const arrayCube=[];
+        var color="";
+        if (this.state.active == 1) {
+            for (let i=1; i<num+1; i++) {
+                if (i%2==0)
+                    color="grey";
+                else
+                    color="white";
+                arrayCube.push(<ArrayCube number={dict[i]} dimension={280-((num+2-i)*20)} color={color} key={i}/>);
+            }
+            return (
+                <View style={{justifyContent: "center", alignItems: "center", position: "absolute"}}>
+                    {arrayCube}
+                </View>
+
+            );
+        }
+    }
+        
+
     render() {
-        const {route} = this.props;
-        const { problemDifficulty, problemNumber } = route.params;
+        let dict ={1:3, 2:2, 3:1}
         return (
             <ImageBackground source={require("../assets/bg.jpg")} style={styles.container}>
-                <Text style={styles.textHeading}>  {problemDifficulty} PROBLEM {problemNumber + 1} </Text>
-                
+                <Text style={styles.textHeading}>  PROBLEM </Text>
+            {/*
                 <View style={styles.problemView}>
                     <Text style={styles.textHeading}> PROBLEM BOX </Text>
                 </View>
-    
+
+            */}
+
                 <View style={styles.playingFieldView}>
-                    {this.addCube()}
+                    {this.addCube(Object.keys(dict).length, dict)}
                 </View>
-    
+
                 <View style={styles.curvedLine} />
-    
+
                 {/*For now the name of the buttons are taken from the EEG Pascal Program */}
                 <TouchableOpacity style={styles.graphButtonDCP} onPress={() => console.log("DCP PRESSED")}>
                     <Text style={styles.graphButtonText}> DCP </Text>
@@ -44,7 +88,7 @@ class ProblemScreen extends Component {
                 <TouchableOpacity style={styles.graphButtonDCN} onPress={() => console.log("DCN PRESSED")}>
                     <Text style={styles.graphButtonText}> DCN </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.graphButtonIN} onPress={() => this.setState({active : 1})}>
+                <TouchableOpacity style={styles.graphButtonIN} onPress={() => this.setState({active:1})}>
                     <Text style={styles.graphButtonText}> IN </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.graphButtonEG} onPress={() => console.log("EG PRESSED")}>
@@ -56,24 +100,18 @@ class ProblemScreen extends Component {
                 <TouchableOpacity style={styles.graphButtonDE} onPress={() => console.log("DE PRESSED")}>
                     <Text style={styles.graphButtonText}> DE </Text>
                 </TouchableOpacity>
-                
+
                 <TouchableOpacity style={styles.rightArrow} onPress={() => console.log("Back button PRESSED")} >
                     <Feather name="arrow-left-circle" size={40} color="white" />
                 </TouchableOpacity>
-    
+
                 <TouchableOpacity style={styles.leftArrow} onPress={() => console.log("Forward button PRESSED")} >
                     <Feather name="arrow-right-circle" size={40} color="white" />
                 </TouchableOpacity>
             </ImageBackground>
         );
     }
-    
-}
 
-export default function(props) {
-    const route = useRoute();
-    const navigation = useNavigation()
-    return <ProblemScreen {...props} route={route} />
 }
 
 const styles = StyleSheet.create({
@@ -108,8 +146,8 @@ const styles = StyleSheet.create({
     },
 
     playingFieldView: {
-        width: "80%",
-        height: "40%",
+        width: "90%",
+        height: "60%",
         borderWidth: 3,
         borderColor: "white",
         backgroundColor: "transparent",
@@ -250,7 +288,31 @@ const styles = StyleSheet.create({
 
 })
 
-/*  
+/*
+isMatchingBrackets = (str) => {
+        let stack = [];
+        let map = {
+            '(': ')',
+        };
+        let level=0;
+        let dict={};
+        for (let i = 0; i < str.length; i++) {
     
-    
-*/
+            // If character is an opening brace add it to a stack
+            if (str[i] === '(' ) {
+                stack.push(str[i]);
+                level = level + 1;
+                dict[level]=[];
+            }
+            //  If that character is a closing brace, pop from the stack, which will also reduce the length of the stack each time a closing bracket is encountered.
+            else if (str[i] == ')') {
+                let last = stack.pop();
+                level = level -1;
+            }
+            else {
+                dict[level].push(str[i]);
+            }
+        }
+        console.log(dict);
+    }
+    */

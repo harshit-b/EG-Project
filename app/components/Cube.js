@@ -3,47 +3,20 @@ import {
   Dimensions,
   PanResponder,
   View,
-  Text
+  Text,
+  StyleSheet,
 } from 'react-native';
 import { transformOrigin, rotateXY, rotateXZ } from './utils';
 
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
-const styles = {
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    /*
-    left: WIDTH / 2 - 50,
-    top: HEIGHT / 2 - 50,
-    */
-    width: 100,
-    height: 100,
-    backgroundColor: "transparent"
-  },
-  rectangle: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    width: 100,
-    height: 100,
-    zIndex: 10,
-    justifyContent: "center",
-    alignItems: "center",
-  },
 
-  textHeading: {
-    fontSize: 30,
-    textAlign: "center",
-    color: "white",
-    fontWeight: "bold",
-    //fontFamily: "AppleSDGothicNeo-Thin",
 
-  },
-};
-
-export default class Cube extends Component {
+class Cube extends Component {
+  constructor(props) {
+    super(props);
+  }
   UNSAFE_componentWillMount() {
     this.panResponder = PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
@@ -53,7 +26,7 @@ export default class Cube extends Component {
 
   handlePanResponderMove (e, gestureState) {
     const { dx, dy } = gestureState;
-    const origin = { x: 0, y: 0, z: -50 };
+    const origin = { x: 0, y:0, z: -this.props.dim/2 };
     let matrix = rotateXY(dx, dy);
     transformOrigin(matrix, origin);
     this.refViewFront.setNativeProps({style: {transform: [{perspective: 1000}, {matrix: matrix}]}});
@@ -73,8 +46,9 @@ export default class Cube extends Component {
     matrix = rotateXZ(dx, dy - 90);
     transformOrigin(matrix, origin);
     this.refViewTop.setNativeProps({style: {transform: [{perspective: 1000}, {matrix: matrix}]}});
+  
 
-    matrix = rotateXZ(-dx, dy + 90);
+    matrix = rotateXZ(-dx, dy+90);
     transformOrigin(matrix, origin);
     this.refViewBottom.setNativeProps({style: {transform: [{perspective: 1000}, {matrix: matrix}]}});
   }
@@ -83,11 +57,10 @@ export default class Cube extends Component {
     return (
       <View
         ref={component => this.refViewRight = component}
-        style={[styles.rectangle, (color) ? {backgroundColor: color} : null]}
+        style={[styles.rectangle, {height: this.props.dim, width: this.props.dim, backgroundColor: color}]}
         {...this.panResponder.panHandlers}
-      > 
-            <Text style={styles.textHeading}> A </Text>
-       </View>
+      />
+
     )
   }
 
@@ -95,11 +68,10 @@ export default class Cube extends Component {
     return (
       <View
         ref={component => this.refViewLeft = component}
-        style={[styles.rectangle, (color) ? {backgroundColor: color} : null]}
+        style={[styles.rectangle, {height: this.props.dim, width: this.props.dim, backgroundColor: color}]}
         {...this.panResponder.panHandlers}
-      > 
-        <Text style={styles.textHeading}> A </Text>
-      </View>
+      />
+
     )
   }
 
@@ -107,11 +79,9 @@ export default class Cube extends Component {
     return (
       <View
         ref={component => this.refViewFront = component}
-        style={[styles.rectangle, (color) ? {backgroundColor: color} : null]}
+        style={[styles.rectangle, {height: this.props.dim, width: this.props.dim, backgroundColor: color}]}
         {...this.panResponder.panHandlers}
-      >
-          <Text style={styles.textHeading}> A </Text>
-      </View>
+      />
     )
   }
 
@@ -119,11 +89,9 @@ export default class Cube extends Component {
     return (
       <View
         ref={component => this.refViewBack = component}
-        style={[styles.rectangle, (color) ? {backgroundColor: color} : null]}
+        style={[styles.rectangle, {height: this.props.dim, width: this.props.dim, backgroundColor: color}]}
         {...this.panResponder.panHandlers}
-      > 
-            <Text style={styles.textHeading}> A </Text>  
-      </View>
+      /> 
     )
   }
 
@@ -131,10 +99,10 @@ export default class Cube extends Component {
     return (
       <View
         ref={component => this.refViewTop = component}
-        style={[styles.rectangle, (color) ? {backgroundColor: color} : null]}
+        style={[styles.rectangle, {height: this.props.dim, width: this.props.dim, backgroundColor: color}]}
         {...this.panResponder.panHandlers}
       >
-          <Text style={styles.textHeading}> A </Text>
+        <Text style={styles.textHeading}> {this.props.text} </Text>
       </View>
     )
   }
@@ -143,17 +111,16 @@ export default class Cube extends Component {
     return (
       <View
         ref={component => this.refViewBottom = component}
-        style={[styles.rectangle, (color) ? {backgroundColor: color} : null]}
+        style={[styles.rectangle, {height: this.props.dim, width: this.props.dim, backgroundColor: color}]}
         {...this.panResponder.panHandlers}
-      >
-          <Text style={styles.textHeading}> A </Text>
-      </View>
+      />
     )
   }
 
   render() {
+    
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, {height: this.props.dim, width: this.props.dim}]}>
         {this.renderFront('#4c72e0')}
         {this.renderBack('#8697df')}
         {this.renderLeft('#b5bce2')}
@@ -164,3 +131,31 @@ export default class Cube extends Component {
     );
   }
 }
+
+export default function(props) {
+  return <Cube {...props} />
+}
+
+const styles = StyleSheet.create({
+  container: {
+    /*
+    left: WIDTH / 2 - 50,
+    top: HEIGHT / 2 - 50,
+    */
+  },
+  rectangle: {
+    position: "absolute",
+    zIndex: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  textHeading: {
+    fontSize: 30,
+    textAlign: "center",
+    color: "black",
+    fontWeight: "bold",
+    //fontFamily: "AppleSDGothicNeo-Thin",
+
+  },
+})
