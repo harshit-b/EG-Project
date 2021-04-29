@@ -3,14 +3,39 @@ import { ImageBackground, StyleSheet, View, TouchableHighlight, Text, Image, Tou
 import { Feather } from '@expo/vector-icons';
 import Cube from './Cube.js';
 import ArrayCube from './ArrayCube.js';
+import { useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 
 
-export default class ProblemScreen extends Component {
+class ProblemScreen extends Component {
     constructor(props) {
         super(props);
         this.state = { active: 0 };
     }
+
+    writeToFile() {
+        const fileContents = 'This is a my content.';
+        FileSystem.writeToFile('my-directory/my-file.txt', fileContents);
+        console.log('file is written');
+    }
+    /*
+    readFile = (filename) => {
+        const fileContents = FileSystem.readFile("Basics.txt");
+        console.log("read from file: " + fileContents);
+      }
+    */
     
+      /*
+    openFile = (filename) => {
+        var RNFS = require('react-native-fs');
+
+        RNFS.readFileAssets(filename).then((res) => {
+            console.log('read file res: ', res);
+            })
+        
+        
+    }
+    */
     isMatchingBrackets = (str) => {
         let stack = [];
         let map = {
@@ -42,7 +67,7 @@ export default class ProblemScreen extends Component {
     addCube = (num, dict) => {
         const arrayCube=[];
         var color="";
-        if (this.state.active == 1) {
+        if (this.state.active==1) {
             for (let i=1; i<num+1; i++) {
                 if (i%2==0)
                     color="grey";
@@ -58,9 +83,93 @@ export default class ProblemScreen extends Component {
             );
         }
     }
+
+    changeStr = (str) => {
+        let str_new="[";
+        if (this.state.active==0) {
+            for (var i=0; i < str.length; i++) {
+                if (str[i]=="(")
+                    str_new = str_new + "[";
+                else if (str[i]==")") {
+                    if (str[i+1]!=undefined && str[i+1]!=")")
+                        str_new = str_new + "],";
+                    else
+                        str_new = str_new + "]";
+                }   
+                else {
+                    if (str[i+1]!=undefined && str[i+1]!=")")
+                        str_new = str_new + "\"" + str[i] + "\"" + "," ;
+                    else 
+                        str_new = str_new + "\"" + str[i] + "\"";
+                }
+                
+            }
+            str_new = str_new + "]";
+            
+            return (
+                <View style={{justifyContent: "center", alignItems: "center", position: "absolute"}}>
+                    <Text style={styles.textHeading}> {str_new} </Text>
+                </View>
+            )
+        }
+    }
         
 
     render() {
+        const {route} = this.props;
+        const { navigation } = this.props;
+        const problems = {
+            "Basics" : [
+                '()',
+                '((A))',
+                '(AB)',
+                '(((A)(B)))',
+                '(A)(B)',
+    
+            ],
+    
+            "Easy" : [
+                '(((A(B))))',
+                '(A(B))',
+                '(A)',
+                '(AB)',
+                '((B))',
+                '(A(B))',
+                '(A)',
+                '(A(A))',
+                '(C)',
+                '(C((B)(C)))',
+            ],
+    
+            "Medium" : [
+                '(((A(B))))',
+                '(A(B))',
+                '(A)',
+                '(AB)',
+                '((B))',
+                '(A(B))',
+                '(A)',
+                '(A(A))',
+                '(C)',
+                '(C((B)(C)))',
+            ],
+    
+            "Hard" : [
+                '(((A(B))))',
+                '(A(B))',
+                '(A)',
+                '(AB)',
+                '((B))',
+                '(A(B))',
+                '(A)',
+                '(A(A))',
+                '(C)',
+                '(C((B)(C)))',
+    
+            ]
+    
+        }
+        console.log(problems.Medium[this.props.route.params.problemNumber])
         let dict ={1:3, 2:2, 3:1}
         return (
             <ImageBackground source={require("../assets/bg.jpg")} style={styles.container}>
@@ -73,7 +182,8 @@ export default class ProblemScreen extends Component {
             */}
 
                 <View style={styles.playingFieldView}>
-                    {this.addCube(Object.keys(dict).length, dict)}
+                    {this.changeStr(problems.Medium[this.props.route.params.problemNumber])}
+                    { this.addCube(Object.keys(dict).length, dict)}
                 </View>
 
                 <View style={styles.curvedLine} />
@@ -112,6 +222,12 @@ export default class ProblemScreen extends Component {
         );
     }
 
+}
+
+export default function(props) {
+    const route = useRoute();
+    const navigation = useNavigation();
+    return <ProblemScreen {...props} route={route} navigation={navigation} />
 }
 
 const styles = StyleSheet.create({

@@ -28,11 +28,11 @@ export default class CoursesScreen extends Component {
         if (this.state.active == 0)
             return <Buttons difficulty={"Basics"} num_buttons={5} />
         else if (this.state.active == 1)
-            return <Buttons difficulty={"Easy"} num_buttons={15} />
+            return <Buttons difficulty={"Easy"} num_buttons={10} />
         else if (this.state.active == 2)
-            return <Buttons difficulty={"Medium"} num_buttons={15} />
+            return <Buttons difficulty={"Medium"} num_buttons={10} />
         else if (this.state.active == 3)
-            return <Buttons difficulty={"Hard"} num_buttons={15} />
+            return <Buttons difficulty={"Hard"} num_buttons={10} />
     }
 
     render() {

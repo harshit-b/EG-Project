@@ -19,7 +19,7 @@ function Buttons({ difficulty, num_buttons }) {
                 backgroundColor: "transparent",
                 alignItems: "center",
                 justifyContent: "center",
-            }} key={i} onPress={() => navigation.navigate("Problem", { problemDifficulty: difficulty, problemNumber: i })}>
+            }} key={i} onPress={() => navigation.navigate("Problem", { problemDifficulty: difficulty, problemNumber: i})}>
                 <Text style={{ color: "white" }}> {difficulty} PROBLEM {(i + 1)} </Text>
             </TouchableHighlight>
         )
