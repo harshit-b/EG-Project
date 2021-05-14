@@ -120,7 +120,7 @@ class Cube extends Component {
   render() {
     
     return (
-      <View style={[styles.container, {height: this.props.dim, width: this.props.dim}]}>
+      <View style={{left: this.props.left, bottom: this.props.bottom, height: this.props.dim, width: this.props.dim, position: "absolute"}}>
         {this.renderFront('#4c72e0')}
         {this.renderBack('#8697df')}
         {this.renderLeft('#b5bce2')}
@@ -137,12 +137,6 @@ export default function(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    /*
-    left: WIDTH / 2 - 50,
-    top: HEIGHT / 2 - 50,
-    */
-  },
   rectangle: {
     position: "absolute",
     zIndex: 10,

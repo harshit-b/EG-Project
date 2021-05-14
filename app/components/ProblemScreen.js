@@ -13,70 +13,83 @@ class ProblemScreen extends Component {
         this.state = { active: 0 };
     }
 
-    writeToFile() {
-        const fileContents = 'This is a my content.';
-        FileSystem.writeToFile('my-directory/my-file.txt', fileContents);
-        console.log('file is written');
-    }
-    /*
-    readFile = (filename) => {
-        const fileContents = FileSystem.readFile("Basics.txt");
-        console.log("read from file: " + fileContents);
-      }
-    */
-    
-      /*
-    openFile = (filename) => {
-        var RNFS = require('react-native-fs');
-
-        RNFS.readFileAssets(filename).then((res) => {
-            console.log('read file res: ', res);
-            })
-        
-        
-    }
-    */
-    isMatchingBrackets = (str) => {
-        let stack = [];
-        let map = {
-            '(': ')',
-        };
-        let level=0;
-        let dict={};
-        for (let i = 0; i < str.length; i++) {
-    
-            // If character is an opening brace add it to a stack
-            if (str[i] === '(' ) {
-                stack.push(str[i]);
-                level = level + 1;
-                if (!(level in dict))
-                    dict[level]=[];
-            }
-            //  If that character is a closing brace, pop from the stack, which will also reduce the length of the stack each time a closing bracket is encountered.
-            else if (str[i] == ')') {
-                let last = stack.pop();
-                level = level -1;
-            }
-            else {
-                dict[level].push(str[i]);
-            }
-        }
-        console.log(dict);
-    }
-
-    addCube = (num, dict) => {
-        const arrayCube=[];
-        var color="";
-        if (this.state.active==1) {
-            for (let i=1; i<num+1; i++) {
-                if (i%2==0)
-                    color="grey";
+    changeStr = (str) => {
+        let str_new="[";
+        let i=0;
+        for (const c of str) {
+            if (c=="(")
+                str_new = str_new + "[";
+            else if (c==")") {
+                if (str[i+1]!=undefined && str[i+1]!=")")
+                    str_new = str_new + "],";
                 else
-                    color="white";
-                arrayCube.push(<ArrayCube number={dict[i]} dimension={280-((num+2-i)*20)} color={color} key={i}/>);
+                    str_new = str_new + "]";
+            }   
+            else {
+                if (str[i+1]!=undefined && str[i+1]!=")")
+                    str_new = str_new + "\"" + c + "\"" + "," ;
+                else 
+                    str_new = str_new + "\"" + c + "\"";
+            }
+            i++;
+            
+        }
+        str_new = str_new + "]";
+        return JSON.parse(str_new);
+    }
+    
+
+    addCubeDetails = (arr, arrayCube, size, left, bottom, num, level) => {
+        if (arr.length==1) 
+            size = size/level;
+        size=size/arr.length;
+        for (let i = 0; i < arr.length; i++) {
+            
+            
+            if (Array.isArray(arr[i])) {
+                console.log("Letter Not Found");
+                arrayCube[num] = {};
+                arrayCube[num].size = size;
+                arrayCube[num].left = left + (5+i*(size+5));
+                arrayCube[num].bottom = 10+bottom;
+                if (arr[i].length == 0) {
+                    arrayCube[num].text = "Empty";
+                }
+    
+                else {
+                    arrayCube[num].text = "Base";
+                    arrayCube = this.addCubeDetails(arr[i], arrayCube, size, left+5+i*(size+5), bottom+(size+5), num+1, level+1);
+                    num = num + arr.length - 1;
+                }
+            }
+    
+            else if (/[a-zA-Z]/.test(arr[i])) {
+                arrayCube[num] = {};
+                arrayCube[num].text = arr[i];
+                arrayCube[num].size = size;
+                arrayCube[num].left = left + (5+i*(size+5));
+                arrayCube[num].bottom = 10+bottom;
+            }
+    
+            num=num+1;
+        }
+    
+        return arrayCube;
+    }
+
+    makeCubes = (str) => {
+        let arr = [];
+        let arr_dict = [];
+        const arrayCube=[];
+        arr = this.changeStr(str);
+        arr_dict = this.addCubeDetails(arr, [], 280, 0, 0, 0, 1);
+        if (this.state.active==1) {
+            console.log(arr_dict)
+            for (let i=0; i<arr_dict.length; i++) {
+                arrayCube.push(<Cube dim={arr_dict[i].size} text={arr_dict[i].text} left={arr_dict[i].left} bottom={arr_dict[i].bottom} key={i}/>);
             }
             return (
-                <View style={{justifyContent: "center", alignItems: "center", position: "absolute"}}>
+                <View style={{position: "absolute"}}>
                     {arrayCube}
                 </View>
 
@@ -84,52 +97,26 @@ class ProblemScreen extends Component {
         }
     }
 
-    changeStr = (str) => {
-        let str_new="[";
-        if (this.state.active==0) {
-            for (var i=0; i < str.length; i++) {
-                if (str[i]=="(")
-                    str_new = str_new + "[";
-                else if (str[i]==")") {
-                    if (str[i+1]!=undefined && str[i+1]!=")")
-                        str_new = str_new + "],";
-                    else
-                        str_new = str_new + "]";
-                }   
-                else {
-                    if (str[i+1]!=undefined && str[i+1]!=")")
-                        str_new = str_new + "\"" + str[i] + "\"" + "," ;
-                    else 
-                        str_new = str_new + "\"" + str[i] + "\"";
-                }
-                
-            }
-            str_new = str_new + "]";
-            
-            return (
-                <View style={{justifyContent: "center", alignItems: "center", position: "absolute"}}>
-                    <Text style={styles.textHeading}> {str_new} </Text>
-                </View>
-            )
-        }
-    }
-        
-
     render() {
         const {route} = this.props;
         const { navigation } = this.props;
         const problems = {
             "Basics" : [
-                '()',
                 '((A))',
+                '(A(B))',
+                '(A)',
                 '(AB)',
-                '(((A)(B)))',
-                '(A)(B)',
+                '((B))',
+                '(A(B))',
+                '(A)',
+                '(A(A))',
+                '(C)',
+                '(C((B)(C)))',
     
             ],
     
             "Easy" : [
-                '(((A(B))))',
+                '((A))',
                 '(A(B))',
                 '(A)',
                 '(AB)',
@@ -142,7 +129,7 @@ class ProblemScreen extends Component {
             ],
     
             "Medium" : [
-                '(((A(B))))',
+                '((A))',
                 '(A(B))',
                 '(A)',
                 '(AB)',
@@ -155,7 +142,7 @@ class ProblemScreen extends Component {
             ],
     
             "Hard" : [
-                '(((A(B))))',
+                '((A))',
                 '(A(B))',
                 '(A)',
                 '(AB)',
@@ -169,8 +156,6 @@ class ProblemScreen extends Component {
             ]
     
         }
-        console.log(problems.Medium[this.props.route.params.problemNumber])
-        let dict ={1:3, 2:2, 3:1}
         return (
             <ImageBackground source={require("../assets/bg.jpg")} style={styles.container}>
                 <Text style={styles.textHeading}>  PROBLEM </Text>
@@ -182,8 +167,7 @@ class ProblemScreen extends Component {
             */}
 
                 <View style={styles.playingFieldView}>
-                    {this.changeStr(problems.Medium[this.props.route.params.problemNumber])}
-                    { this.addCube(Object.keys(dict).length, dict)}
+                    {this.makeCubes(problems.Medium[this.props.route.params.problemNumber])}
                 </View>
 
                 <View style={styles.curvedLine} />
@@ -267,8 +251,7 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderColor: "white",
         backgroundColor: "transparent",
-        alignItems: "center",
-        justifyContent: "center",
+        justifyContent : "flex-end",
         top: "11%"
     },
 
